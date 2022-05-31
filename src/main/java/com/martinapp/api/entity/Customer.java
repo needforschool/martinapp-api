@@ -1,11 +1,11 @@
 package com.martinapp.api.entity;
 
+import com.martinapp.api.common.Address;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.annotation.Resource;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -22,15 +22,33 @@ public class Customer {
 
     @Getter
     @Setter
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    @Resource(name = "Address", type = Address.class)
+    private Address address;
+
+    @Getter
+    @Setter
     private Date dateOfBirth;
 
     public Customer() {}
 
-    public Customer(String firstName, String lastName, Date dateOfBirth, String phoneNumber) {
+    public Customer(String firstName, String lastName, Date dateOfBirth, Address address, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.address = address;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getName() {
+        return firstName + " " + lastName;
+    }
+
+    public void setName(String name) {
+        String[] names = name.split(" ");
+        this.firstName = names[0];
+        this.lastName = names[1];
     }
 
     @Override

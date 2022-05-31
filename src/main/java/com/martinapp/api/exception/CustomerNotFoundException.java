@@ -1,7 +1,13 @@
 package com.martinapp.api.exception;
 
+import java.util.UUID;
+
 public class CustomerNotFoundException extends RuntimeException {
-    public CustomerNotFoundException(Long id) {
-        super("Could not find customer " + id);
+    public CustomerNotFoundException(UUID id) {
+        this(id.toString());
+    }
+
+    public CustomerNotFoundException(String id) {
+        super("User not found : " + id);
     }
 }
